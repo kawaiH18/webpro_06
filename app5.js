@@ -28,6 +28,24 @@ app.get("/keiyo_add", (req, res) => {
   res.render('db2', { data: station });
 });
 
+let card = [
+  { id:1, code:"JE01", name:"東京駅"},
+  { id:2, code:"JE07", name:"舞浜駅"},
+  { id:3, code:"JE12", name:"新習志野駅"},
+  { id:4, code:"JE13", name:"幕張豊砂駅"},
+  { id:5, code:"JE14", name:"海浜幕張駅"},
+  { id:6, code:"JE05", name:"新浦安駅"},
+];
+
+app.get("/DM_add", (req, res) => {
+  let id = req.query.id;
+  let code = req.query.code;
+  let name = req.query.name;
+  let newdata = { id: id, code: code, name: name };
+  station.push( newdata );
+  res.render('DM', { data:card });
+});
+
 let station2 = [
   { id:1, code:"JE01", name:"東京駅", change:"総武本線，中央線，etc", passengers:403831, distance:0 },
   { id:2, code:"JE02", name:"八丁堀駅", change:"日比谷線", passengers:31071, distance:1.2 },
@@ -44,11 +62,6 @@ app.get("/keiyo2", (req, res) => {
   res.render('keiyo2', {data: station2} );
 });
 
-// Create
-app.get("/keiyo2/create", (req, res) => {
-  res.redirect('/public/keiyo2_new.html');
-});
-
 // Read
 app.get("/keiyo2/:number", (req, res) => {
   // 本来ならここにDBとのやり取りが入る
@@ -56,6 +69,13 @@ app.get("/keiyo2/:number", (req, res) => {
   const detail = station2[ number ];
   res.render('keiyo2_detail', {id: number, data: detail} );
 });
+
+// Create
+app.get("/keiyo2/create", (req, res) => {
+  res.redirect('/public/keiyo2_new.html');
+});
+
+
 
 // Delete
 app.get("/keiyo2/delete/:number", (req, res) => {
